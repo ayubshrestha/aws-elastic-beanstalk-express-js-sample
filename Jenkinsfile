@@ -34,13 +34,21 @@ pipeline {
             agent {
                 docker {
                     image 'node:16'
-                    args  '-u root'      // root so the global tool install works
+                    args  '-u root'      // root so a global tool install would work
                 }
             }
             steps {
-                // SECURITY GATE: fail the build on High/Critical vulnerabilities
                 sh 'npm ci'
+                // Write full audit report to a file for archiving (|| true so this line never fails the build)
+                sh 'npm audit --json > npm-audit-report.json || true'
+                // SECURITY GATE: fail the build on High/Critical vulnerabilities
                 sh 'npm audit --audit-level=high'
+            }
+            post {
+                always {
+                    // Archive the audit report so it can be reviewed later (Task 4.2b)
+                    archiveArtifacts artifacts: 'npm-audit-report.json', allowEmptyArchive: true
+                }
             }
         }
 
