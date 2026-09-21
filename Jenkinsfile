@@ -5,7 +5,7 @@ pipeline {
     agent none   // each stage picks its own containerised agent
 
     environment {
-        IMAGE_NAME = "ayubshrestha/express-js-sample"
+        IMAGE_NAME = "ayubshrestha/express-js-sample-assignment2-22802767"
         IMAGE_TAG  = "${env.BUILD_NUMBER}"
     }
 
