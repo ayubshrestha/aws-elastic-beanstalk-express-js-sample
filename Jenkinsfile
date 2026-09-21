@@ -38,9 +38,9 @@ pipeline {
                 }
             }
             steps {
-                // SECURITY GATE: fail the build on High/Critical vulnerabilities
+                // SECURITY GATE: fail the build on moderate/Critical vulnerabilities
                 sh 'npm ci'
-                sh 'npm audit --audit-level=high'
+                sh 'npm audit --audit-level=moderate'
             }
         }
 
